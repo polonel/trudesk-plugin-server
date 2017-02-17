@@ -1,0 +1,11 @@
+
+@import './_td.colors.scss';
+
+.grommetux-input::-webkit-input-placeholder {
+    color: $placeholder-text-color;
+}
+
+.grommetux-search--inline .grommetux-search__input:focus {
+    outline: none;
+    border: none;
+} 
