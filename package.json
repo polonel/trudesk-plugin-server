@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "watch": "webpack --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm -rf build && mkdir build",
+    "build-server": "babel -d ./build/server ./src/server -s",
+    "build": "npm run clean && npm run build-server && webpack",
+    "start": "node ./build/server/index.js"
   },
   "repository": {
     "type": "git",
