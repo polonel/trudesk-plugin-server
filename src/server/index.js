@@ -50,7 +50,7 @@ DBInit((e, db) => {
 
     app.use(router());
 
-    app.server.listen(3000);
+    app.server.listen(8117);
     winston.info('Server listing...');
 });
 
