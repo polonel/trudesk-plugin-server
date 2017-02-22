@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "watch": "webpack --watch",
+    "dev": "babel-node ./src/server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf build && mkdir build",
     "build-server": "babel -d ./build/server ./src/server --presets es2015,react,stage-0",
-    "build": "npm run clean && npm run build-server && webpack",
+    "build": "npm run clean && npm run build-server && webpack --config webpack.config.prod.js",
     "start": "node ./build/server/index.js"
   },
   "repository": {
