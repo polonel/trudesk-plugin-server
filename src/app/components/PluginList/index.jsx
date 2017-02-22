@@ -47,7 +47,7 @@ export default class PluginList extends Component {
 
     _search () {
         const searchText = this.props.searchText;
-        const options = { method: 'GET', headers: headers };
+        const options = { method: 'GET', headers: headers};
         let params = {
             url: config.baseUrl,
             searchText: searchText
@@ -56,7 +56,7 @@ export default class PluginList extends Component {
         const query = buildQuery(params);
         fetch('/api/plugins', options)
         .then(processStatus) 
-        .then(response => response.json())  
+        .then(response => response.json())
         .then(response => this._onSearchResponse(response))
         .catch(error => this.setState({results: [], error: error, busy: false}));
 
@@ -71,7 +71,6 @@ export default class PluginList extends Component {
             this.setState({results: [], busy: false});
         } else {
             this.setState({busy: true});
-
             this._searchTimer = setTimeout(this._search, 500);
         }
     }

@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const whatwg = require('whatwg-fetch');
 const autoprefixer = require('autoprefixer');
 const precss = require('precss');
 const HtmlwebpackPlugin = require('html-webpack-plugin');
@@ -12,6 +13,7 @@ module.exports = {
     'react-hot-loader/patch',
     'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
     'webpack/hot/only-dev-server',
+    'whatwg-fetch',
     path.resolve(ROOT_PATH, 'src/app'),
   ],
   output: {

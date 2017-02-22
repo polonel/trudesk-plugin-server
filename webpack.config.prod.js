@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const whatwg = require('whatwg-fetch');
 const autoprefixer = require('autoprefixer');
 const precss = require('precss');
 const HtmlwebpackPlugin = require('html-webpack-plugin');
@@ -9,6 +10,7 @@ const ROOT_PATH = path.resolve(__dirname);
 module.exports = {
   devtool: 'eval',
   entry: [
+    'whatwg-fetch',
     path.resolve(ROOT_PATH, 'src/app'),
   ],
   output: {
