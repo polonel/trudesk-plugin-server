@@ -17,8 +17,6 @@ api.handlePackageMetadata = (req, res, next) => {
         pluginjson: postData.pluginJSON
     });
 
-    console.log(plugin);
-
     plugin.save((err, savedPlugin) => {
         if (err) return res.status(400).json({success: false, error: err.message});
 

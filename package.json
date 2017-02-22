@@ -7,7 +7,7 @@
     "watch": "webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf build && mkdir build",
-    "build-server": "babel -d ./build/server ./src/server -s",
+    "build-server": "babel -d ./build/server ./src/server --presets es2015,react,stage-0",
     "build": "npm run clean && npm run build-server && webpack",
     "start": "node ./build/server/index.js"
   },
@@ -23,6 +23,7 @@
   "homepage": "https://github.com/polonel/trudesk-plugin-server#readme",
   "devDependencies": {
     "autoprefixer": "^6.7.2",
+    "babel-cli": "^6.23.0",
     "babel-plugin-transform-react-jsx": "^6.22.0",
     "css-loader": "^0.26.1",
     "file-loader": "^0.10.0",
