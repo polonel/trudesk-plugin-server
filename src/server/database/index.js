@@ -12,8 +12,9 @@ mongoose.connection.on('connected', (e) => {
 
 
 const options = { server: { auto_reconnect: true, socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 }}};
-//const CONNECTIONURI = 'mongodb://' + process.env.MONGODB_PORT_27017_TCP_ADDR + ':27017/trudesk_' + process.env.MONGODB_DATABASE_NAME;
-const CONNECTIONURI = 'mongodb://trudesk:%23TruDesk1%24@ds017736.mlab.com:17736/trudesk';
+let CONNECTIONURI = 'mongodb://' + process.env.MONGODB_PORT_27017_TCP_ADDR + ':27017/trudesk_' + process.env.MONGODB_DATABASE_NAME;
+if (process.env.NODE_ENV === 'development')
+    CONNECTIONURI = 'mongodb://trudesk:%23TruDesk1%24@ds017736.mlab.com:17736/trudesk';
 
 let db = {};
 
