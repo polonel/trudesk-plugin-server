@@ -10,10 +10,11 @@ mongoose.connection.on('connected', (e) => {
     winston.info('Connected to MongoDB');
 });
 
+const env = process.env.NODE_ENV || 'development';
 
 const options = { server: { auto_reconnect: true, socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 }}};
-let CONNECTIONURI = 'mongodb://' + process.env.MONGODB_PORT_27017_TCP_ADDR + ':27017/trudesk_' + process.env.MONGODB_DATABASE_NAME;
-if (process.env.NODE_ENV === 'development')
+let CONNECTIONURI = 'mongodb://' + process.env.MONGODB_PORT_27017_TCP_ADDR + ':27017/' + process.env.MONGODB_DATABASE_NAME;
+if (env == 'development')
     CONNECTIONURI = 'mongodb://trudesk:%23TruDesk1%24@ds017736.mlab.com:17736/trudesk';
 
 let db = {};
