@@ -20,6 +20,7 @@ if (env == 'development')
 let db = {};
 
 const DBInit = (callback) => {
+    winston.info('Running in: ' + env);
     if (db.connection) {
         return callback(null, db);
     } else {
