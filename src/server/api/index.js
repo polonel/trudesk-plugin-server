@@ -12,12 +12,25 @@ api.handlePackageMetadata = (req, res, next) => {
     const postData = req.body;
     var description = 'No Description Set.';
     if (!_.isUndefined(postData.description)) description = postData.description;
-    const plugin = new PluginSchema({
-        name: postData.name,
-        pluginjson: postData.pluginJSON
-    });
 
-    plugin.save((err, savedPlugin) => {
+    Async.waterfall([
+        (done) => {
+            PluginSchema.findOne({name: postData.name.toLowerCase()}, (err, plugin) => {
+                return done(err, plugin);
+            })
+        },
+        (plugin, done) => {
+            if (plugin === undefined || plugin === null) {
+                plugin = new PluginSchema({
+                    name: postData.name.toLowerCase()
+                });
+            }
+
+            plugin.pluginjson = postData.pluginJSON;
+
+            plugin.save(done);
+        }
+    ], (err, savedPlugin) => {
         if (err) return res.status(400).json({success: false, error: err.message});
 
         return res.status(201).json({success: true, plugin: savedPlugin});
@@ -39,6 +52,7 @@ api.handlePackageUpload = (req, res, next) => {
     }
 
     object.packageid = req.params.packageId;
+    object.version = req.params.version;
 
     busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
         if (mimetype.indexOf('application/x-tar') === -1) {
@@ -50,11 +64,11 @@ api.handlePackageUpload = (req, res, next) => {
             return file.resume();
         }
 
-        const savePath = path.join(__dirname, '../plugins');
+        const savePath = path.join(__dirname, '../../../', 'plugins');
         if (!Fs.existsSync(savePath)) Fs.mkdirSync(savePath);
 
-        object.filePath = path.join(savePath, object.packageid + '-' + filename);
-        object.filename = filename;
+        object.filePath = path.join(savePath, object.packageid + '-' + path.basename(filename) + '@' + object.version + path.extname(filename));
+        object.filename = object.packageid + '-' + path.basename(filename) + '@' + object.version + path.extname(filename);
         object.mimetype = mimetype;
 
         file.pipe(Fs.createWriteStream(object.filePath));
@@ -71,7 +85,12 @@ api.handlePackageUpload = (req, res, next) => {
 
         if (!Fs.existsSync(object.filePath)) return res.status(400).json({success: false, error: 'Server was unable to process your request!'});
 
-        return res.status(200).json({success: true});
+        //Update meta with Filename
+        PluginSchema.findOneAndUpdate({_id: object.packageid}, {url: object.filename}, function(err, updatedPlugin) {
+            if (err) return res.status(400).json({success: false, error: 'File Saved. but unable to update file metadata.'});
+
+            return res.status(200).json({success: true});
+        });
     });
 
     req.pipe(busboy);
@@ -83,6 +102,14 @@ api.getPlugins = (req, res) => {
 
         return res.json({success: true, plugins: plugins});
     })
+};
+
+api.getPluginById = (req, res) => {
+    PluginSchema.getPluginById(req.params.id, (err, plugin) => {
+        if (err) return res.status(400).json({success: false, error: err.message});
+
+        return res.json({success: true, plugin: plugin});
+    });
 };
 
 api.getPluginByName = (req, res) => {

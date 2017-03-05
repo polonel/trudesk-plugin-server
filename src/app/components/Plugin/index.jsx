@@ -20,7 +20,7 @@ import DesktopIcon from 'grommet/components/icons/base/Desktop';
 import LinkBackIcon from 'grommet/components/icons/base/LinkPrevious';
 import DownloadIcon from 'grommet/components/icons/base/Download';
 import LogoImage from './logo.png'
-import {StyledLogo} from './styles';
+import {StyledLogo, StyledHR} from './styles';
 import config from '../../config';
 
 export default class Plugin extends Component {
@@ -117,7 +117,7 @@ export default class Plugin extends Component {
                             {plugin.name}
                         </Heading>
                         <p className="plugin-description">{description}</p>
-                        <hr />
+                        <StyledHR />
                         {plugin.md !== undefined &&
                             <ReactMarkdown source={plugin.md} />
                         }

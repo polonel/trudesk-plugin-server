@@ -11,6 +11,8 @@ let pluginSchema = mongoose.Schema({
     name: { type: 'String', required: true, unique: true, trim: true },
     pluginjson: { type: Object, required: true },
 
+    url: {type: 'String', unique: true },
+
     created_at: { type: Date },
     updated_at: { type: Date }
 });
@@ -26,6 +28,10 @@ pluginSchema.pre('save', function(next) {
 
 pluginSchema.statics.getAllPlugins = function(callback) {
     return this.find({}).exec(callback);
+};
+
+pluginSchema.statics.getPluginById = function(id, callback) {
+    return this.findOne({_id: id}).exec(callback);
 };
 
 pluginSchema.statics.getPluginByName = function(name, callback) {

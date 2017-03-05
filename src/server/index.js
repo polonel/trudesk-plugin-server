@@ -36,7 +36,7 @@ if (global.env === 'development') {
 }
 
 app.use(express.static('build'));
-app.use('/plugin/download/', express.static(path.join(__dirname, 'plugins')));
+app.use('/plugin/download/', express.static(path.join(__dirname, '../../plugins')));
 app.use(bodyParser.json());
 
 DBInit((e, db) => {
