@@ -6,7 +6,7 @@ import Search from 'grommet/components/Search';
 import LogoImage from './logo.png';
 import { StyledMenu, StyledLogo, LogoPlaceholder } from './styles';
 
-var Navbar = () => (
+const Navbar = () => (
     <div>
       <Header justify="between">
         <Title>

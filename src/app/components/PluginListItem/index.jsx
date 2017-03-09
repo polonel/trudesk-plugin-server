@@ -5,28 +5,26 @@ import Image from 'grommet/components/Image';
 import UserIcon from 'grommet/components/icons/base/User';
 import DesktopIcon from 'grommet/components/icons/base/Desktop';
 
-const PluginListItem = (props) => {
-    const { item, first } = props;
-    let thumbnail = <DesktopIcon size="small" />;
-
-    return (
-        <ListItem justify="between" onClick={props.onClick}
-        pad={{horizontal: 'medium', vertical: 'small', between: 'medium'}}
-        separator={first ? 'horizontal' : 'bottom' }
-        colorIndex={props.colorIndex}>
+class PluginListItem extends React.Component {
+    render() {
+        let thumbnail = <DesktopIcon size="small" />;
+        return <ListItem justify="between" onClick={this.props.onClick}
+                  pad={{horizontal: 'medium', vertical: 'small', between: 'medium'}}
+                  separator={this.props.first ? 'horizontal' : 'bottom' }
+                  colorIndex={this.props.colorIndex}>
             <Box pad={{between: 'small'}} direction="row" align="center"
-            responsive={false} className="flex">
+                 responsive={false} className="flex">
                 {thumbnail}
-                <span>{item.name} - v{item.pluginjson.version}</span>
+                <span>{this.props.item.name} - v{this.props.item.pluginjson.version}</span>
             </Box>
             <span className="secondary">
-                {item.desc}
+                {this.props.item.desc}
             </span>
         </ListItem>
-    );
-};
+    }
+}
 
-PluginListItem.PropTypes = {
+PluginListItem.propTypes = {
     colorIndex: PropTypes.string,
     first: PropTypes.bool,
     item: PropTypes.object,

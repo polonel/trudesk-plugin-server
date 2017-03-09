@@ -4,7 +4,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import router from './routes';
 import winston from 'winston';
-import {DBInit, db} from './database';
+import {DBInit} from './database';
 
 let app = express();
 app.server = http.createServer(app);
@@ -39,7 +39,7 @@ app.use(express.static('build'));
 app.use('/plugin/download/', express.static(path.join(__dirname, '../../plugins')));
 app.use(bodyParser.json());
 
-DBInit((e, db) => {
+DBInit((e) => {
     if (e) {
         winston.error(e);
         throw new Error(e);

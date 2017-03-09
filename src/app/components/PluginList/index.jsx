@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { headers, buildQuery, processStatus } from 'grommet/utils/Rest';
 import List from 'grommet/components/List';
-import Footer from 'grommet/components/Footer';
 
 import PluginListItem from '../PluginListItem';
 import BusyListItem from '../BusyListItem';
@@ -47,14 +46,15 @@ export default class PluginList extends Component {
 
     _search () {
         const searchText = this.props.searchText;
+
         const options = { method: 'GET', headers: headers};
         let params = {
-            url: config.baseUrl,
             searchText: searchText
         };
 
         const query = buildQuery(params);
-        fetch('/api/plugins', options)
+
+        fetch('/api/plugins' + query, options)
         .then(processStatus) 
         .then(response => response.json())
         .then(response => this._onSearchResponse(response))
@@ -110,9 +110,9 @@ export default class PluginList extends Component {
             </div>
         );
     }
-};
+}
 
-PluginList.PropTypes = {
+PluginList.propTypes = {
     searchText: PropTypes.string,
     onSelect: PropTypes.func.isRequired
 };

@@ -126,7 +126,6 @@ export default class PluginAppContainer extends Component {
       <App centered={false}>
         {contents}
       </App>
-    );
+    )
   }
-
-};
+}

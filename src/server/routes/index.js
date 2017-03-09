@@ -11,7 +11,9 @@ export default () => {
     //This will be sarch but for now return all
     router.get('/api/plugins', Api.getPlugins);
     router.get('/api/plugin/package/:id', Api.getPluginById);
+    router.get('/api/plugin/package/:id/increasedownloads', Api.increaseDownloads);
     router.get('/api/plugin/:name', Api.getPluginByName);
+
 
     //
     router.post('/api/registry/package/meta', Api.handlePackageMetadata);

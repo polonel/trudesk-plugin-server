@@ -8,10 +8,11 @@ import PluginSchema from '../database/pluginSchema';
 
 let api = {};
 
-api.handlePackageMetadata = (req, res, next) => {
+api.handlePackageMetadata = (req, res) => {
     const postData = req.body;
-    var description = 'No Description Set.';
-    if (!_.isUndefined(postData.description)) description = postData.description;
+    let description = 'No Description Set.';
+    if (!_.isUndefined(postData.description))
+        description = postData.description;
 
     Async.waterfall([
         (done) => {
@@ -37,7 +38,7 @@ api.handlePackageMetadata = (req, res, next) => {
     });
 };
 
-api.handlePackageUpload = (req, res, next) => {
+api.handlePackageUpload = (req, res) => {
     let busboy = new Busboy({
         headers: req.headers,
         limits: {
@@ -87,7 +88,7 @@ api.handlePackageUpload = (req, res, next) => {
 
         //Update meta with Filename
         PluginSchema.findOneAndUpdate({_id: object.packageid}, {url: object.filename}, function(err, updatedPlugin) {
-            if (err) return res.status(400).json({success: false, error: 'File Saved. but unable to update file metadata.'});
+            if (err) return res.status(400).json({success: false, updatedPlugin: updatedPlugin, error: 'File Saved. but unable to update file metadata.'});
 
             return res.status(200).json({success: true});
         });
@@ -97,7 +98,9 @@ api.handlePackageUpload = (req, res, next) => {
 };
 
 api.getPlugins = (req, res) => {
-    PluginSchema.getAllPlugins((err, plugins) => {
+    const searchText = req.query.searchText;
+
+    PluginSchema.searchPlugins(searchText, (err, plugins) => {
         if (err) return res.status(400).json({success: false, error: err.message});
 
         return res.json({success: true, plugins: plugins});
@@ -109,6 +112,14 @@ api.getPluginById = (req, res) => {
         if (err) return res.status(400).json({success: false, error: err.message});
 
         return res.json({success: true, plugin: plugin});
+    });
+};
+
+api.increaseDownloads = (req, res) => {
+    PluginSchema.increaseDownloads(req.params.id, (err, downloads) => {
+        if (err) return res.status(400).json({success: false, error: err.message});
+
+        return res.json({success: true, downloads: downloads});
     });
 };
 

@@ -55,7 +55,7 @@ export default class Plugin extends Component {
 
     _onPluginResponse (results) {
         let plugin = results.plugin[0];    
-        if (plugin.pluginjson.github)
+        if (plugin.pluginjson && plugin.pluginjson.github)
             this._getPluginReadme(plugin);
 
         this.setState({plugin: plugin, error: null});
@@ -77,7 +77,6 @@ export default class Plugin extends Component {
 
     _getPluginReadme (plugin) {
         const uri = plugin.pluginjson.github.replace(/^http(s)?:\/\/(www\.)?github.com/, 'https://raw.githubusercontent.com') + '/master/README.md';
-        console.log(uri)
         fetch(uri, {method: 'GET', headers: {Accept: 'text/*'}})
         .then(response => response.text())
         .then((response) => {
@@ -88,9 +87,7 @@ export default class Plugin extends Component {
     }
 
     render () {
-        const plugin = this.state.plugin;  
-        if (this.state.error)
-            console.log(this.state.error);
+        const plugin = this.state.plugin;
 
         let description = plugin.pluginjson ? plugin.pluginjson.description : '';
         let authorName = plugin.pluginjson && plugin.pluginjson.author && plugin.pluginjson.author.name ? plugin.pluginjson.author.name : '';
@@ -131,7 +128,7 @@ export default class Plugin extends Component {
                 <Heading tag="h3">Details</Heading>
                 <span className="command"><DownloadIcon size="small" className="commandIcon" /> tdp install {plugin.name}</span>
                 <Anchor href="#" label="how? learn more." />
-                <Box pad="small"></Box>
+                <Box pad="small"> </Box>
                 <If condition={authorName} >
                     <span className="stat-item"><Anchor href="#" label={authorName} /> published <Moment fromNow>{plugin.updated_at}</Moment></span>                    
                 </If>              
@@ -143,9 +140,9 @@ export default class Plugin extends Component {
                     <span className="stat-item"><Anchor href={homepage} label={homepage} /></span>                                        
                 </If>
 
-                <Box pad="small"></Box>
+                <Box pad="small"> </Box>
                 <Heading tag="h4">Stats</Heading>
-                <span className="stat-item"><strong>156,128</strong> downloads</span>
+                <span className="stat-item"><strong>{plugin.downloads}</strong> total downloads</span>
             </Box>
         );
 
@@ -159,9 +156,9 @@ export default class Plugin extends Component {
             </Box>
         )
     }
-};
+}
 
-Plugin.PropTypes = {
+Plugin.propTypes = {
     id: PropTypes.string.isRequired,
     onClose: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired

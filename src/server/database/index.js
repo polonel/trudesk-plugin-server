@@ -6,7 +6,7 @@ mongoose.connection.on ('error', (e) => {
     winston.error('Unable to connect to MongoDB! - ' + e.message);
 });
 
-mongoose.connection.on('connected', (e) => {
+mongoose.connection.on('connected', () => {
     winston.info('Connected to MongoDB');
 });
 
